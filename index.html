@@ -3,91 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Trading Position Size Calculator – Calculate Risk Per Trade</title>
-<meta name="description" content="Easily calculate your trading position size based on your account balance, risk %, and stop loss. Free online tool.">
-
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5540302661584443"
-     crossorigin="anonymous"></script>
+<title>Position Size Calculator</title>
 
 <style>
-body{
-font-family: Arial;
-background:#0f172a;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #020617, #0f172a);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.card{
-background:#1e293b;
-padding:25px;
-border-radius:12px;
-width:300px;
-text-align:center;
+.container {
+  width: 90%;
+  max-width: 420px;
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+  text-align: center;
 }
 
-input{
-width:100%;
-padding:10px;
-margin:8px 0;
-border-radius:6px;
-border:none;
+h1 {
+  margin-bottom: 5px;
 }
 
-button{
-background:#22c55e;
-border:none;
-padding:10px;
-width:100%;
-border-radius:6px;
-font-weight:bold;
-cursor:pointer;
+p {
+  color: #94a3b8;
+  margin-bottom: 20px;
 }
 
-.result{
-margin-top:15px;
-font-size:18px;
-color:#38bdf8;
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.03);
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.3s;
+}
+
+.result.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.details {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #cbd5f5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
+  <h1>Position Size Calculator</h1>
+  <p>Manage your risk like a pro 📊</p>
 
-<h2>Position Size Calculator</h2>
+  <input type="number" id="balance" placeholder="Account Balance ($)">
+  <input type="number" id="risk" placeholder="Risk per trade (%)">
+  <input type="number" id="stoploss" placeholder="Stop Loss (pips / %)">
 
-<input id="balance" placeholder="Account Balance ($)">
-<input id="risk" placeholder="Risk % per trade">
-<input id="stop" placeholder="Stop Loss (pips)">
+  <button onclick="calculate()">Calculate</button>
 
-<button onclick="calculate()">Calculate</button>
-
-<div class="result" id="output"></div>
-
+  <div class="result" id="result"></div>
+  <div class="details" id="details"></div>
 </div>
 
 <script>
+function calculate() {
+  let balance = parseFloat(document.getElementById("balance").value);
+  let risk = parseFloat(document.getElementById("risk").value);
+  let stoploss = parseFloat(document.getElementById("stoploss").value);
 
-function calculate(){
+  let resultEl = document.getElementById("result");
+  let detailsEl = document.getElementById("details");
 
-let balance = document.getElementById("balance").value;
-let risk = document.getElementById("risk").value;
-let stop = document.getElementById("stop").value;
+  if (isNaN(balance) || isNaN(risk) || isNaN(stoploss) || stoploss === 0) {
+    resultEl.innerText = "Fill all fields correctly 😑";
+    resultEl.classList.add("show");
+    detailsEl.innerText = "";
+    return;
+  }
 
-let riskMoney = balance * (risk/100);
-let position = riskMoney / stop;
+  let riskAmount = (balance * risk) / 100;
+  let positionSize = riskAmount / stoploss;
 
-document.getElementById("output").innerText =
-"Lot Size: " + position.toFixed(2);
+  resultEl.innerText = `Position Size: ${positionSize.toFixed(2)}`;
+  detailsEl.innerText = `Risk Amount: $${riskAmount.toFixed(2)}`;
 
+  resultEl.classList.remove("show");
+  void resultEl.offsetWidth;
+  resultEl.classList.add("show");
 }
-
 </script>
 
 </body>
