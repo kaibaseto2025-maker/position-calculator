@@ -101,6 +101,15 @@ opacity: 1;
   <div class="details" id="details"></div>
 </div>
 
+<!-- Monetag Service Worker Registration Script -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(reg => console.log('Monetag Service Worker registered successfully!'))
+    .catch(err => console.log('Service Worker registration failed:', err));
+}
+</script>
+
 <script>
 function calculate() {
   let balance = parseFloat(document.getElementById("balance").value);
