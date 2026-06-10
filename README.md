@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="monetag" content="06f2767a3c6ab70ef7ca71f1959dd355">
 <title>Position Size Calculator</title>
 
 <style>
@@ -72,7 +73,7 @@ button:hover {
 }
 
 .result.show {
-  opacity: 1;
+opacity: 1;
   transform: translateY(0);
 }
 
